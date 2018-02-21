@@ -1,14 +1,6 @@
-/*
- * Create a list that holds all of your cards
- */
-
-
-/*
- * Display the cards on the page
- *   - shuffle the list of cards using the provided "shuffle" method below
- *   - loop through each card and create its HTML
- *   - add each card's HTML to the page
- */
+// Selectors
+const deck = document.querySelector('.deck');
+const cards = document.querySelectorAll('.card')
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -25,6 +17,12 @@ function shuffle(array) {
     return array;
 }
 
+// Update HTML
+deck.innerHTML = '';
+shuffle([...cards]).forEach(card => deck.appendChild(card));
+
+// Display the cards on the page
+cards.forEach(card => card.classList.add("open", "show"));
 
 /*
  * set up the event listener for a card. If a card is clicked:
