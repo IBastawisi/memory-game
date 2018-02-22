@@ -17,16 +17,33 @@ function shuffle(array) {
     return array;
 }
 
+// Transition animation
+function open(card) {
+    transition.begin(card, ["transform", "rotateY(0)", "rotateY(180deg)", "500ms", "linear"]);
+    setTimeout(() => card.classList.add("open"), 250);
+}
+
+function close(card) {
+    transition.begin(card, ["transform", "rotateY(180deg)", "rotateY(0)", "500ms", "linear"]);
+    setTimeout(() => card.classList.remove("open"), 250);
+}
+
 // Update HTML
 deck.innerHTML = '';
 shuffle([...cards]).forEach(card => deck.appendChild(card));
 
-// Display the cards on the page
-cards.forEach(card => card.classList.add("open", "show"));
+// Open cards on new game
+cards.forEach(card => open(card));
 
-/*
- * set up the event listener for a card. If a card is clicked:
- *  - display the card's symbol (put this functionality in another function that you call from this one)
+// Close cards after 2 secs
+setTimeout(() => cards.forEach(card => close(card)), 2000);
+
+//Set up the event listener for a card. If a card is clicked:
+cards.forEach(card => card.addEventListener('click', function (event) {
+    open(event.target);
+
+}));
+/* 
  *  - add the card to a *list* of "open" cards (put this functionality in another function that you call from this one)
  *  - if the list already has another card, check to see if the two cards match
  *    + if the cards do match, lock the cards in the open position (put this functionality in another function that you call from this one)
