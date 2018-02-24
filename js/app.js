@@ -23,12 +23,12 @@ function shuffle(array) {
 
 // Transitions
 function open(card) {
-    transition.begin(card, ["transform", "rotateY(0)", "rotateY(180deg)", "500ms", "linear"]);
+    transition.begin(card, ["transform", "rotateY(180deg)", "rotateY(0)", "500ms", "linear"]);
     setTimeout(() => card.classList.add("open"), 250);
 }
 
 function close(card) {
-    transition.begin(card, ["transform", "rotateY(180deg)", "rotateY(0)", "500ms", "linear"]);
+    transition.begin(card, ["transform", "rotateY(0)", "rotateY(180deg)", "500ms", "linear"]);
     setTimeout(() => card.classList.remove("open"), 250);
 }
 
