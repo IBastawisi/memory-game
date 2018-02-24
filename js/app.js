@@ -1,9 +1,10 @@
 // Selectors & Global vars
 const deck = document.querySelector('.deck');
 const cards = document.querySelectorAll('.card');
-const movesSpan = document.querySelector('.moves');
+const movesDiv = document.querySelector('.moves');
 const restartBtn = document.querySelector('.restart');
-var moves, matched, accuracy, compareRoom;
+const Time = document.querySelector(".time");
+var moves, matched, accuracy, compareRoom, timer;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -39,6 +40,24 @@ function noMatch() {
     [...compareRoom].forEach(card => close(card));
 }
 
+// Add zero
+function leadingZero(time) {
+    if (time <= 9) {
+      time = "0" + time;
+    }
+    return time;
+}
+
+// Run timer
+function runTimer() {
+    updateScore();
+    timer[3]++;
+  
+    timer[0] = Math.floor((timer[3] / 100) / 60);
+    timer[1] = Math.floor((timer[3] / 100) - (timer[0] * 60));
+    timer[2] = Math.floor(timer[3] - (timer[1] * 100) - (timer[0] * 6000));
+}
+
 // Comparison logic
 function compare() {
     if (compareRoom.length === 2) {
@@ -55,14 +74,15 @@ function compare() {
 }
 
 function updateScore() {
-    movesSpan.textContent = moves;
+    movesDiv.textContent = moves === 1 ? `${moves} Move` : `${moves} Moves`;
+    Time.textContent = `Time: ${leadingZero(timer[0]) + ":" + leadingZero(timer[1]) + ":" + leadingZero(timer[2])}`;
     // Todo: update stars
 }
 
 function newGame() {
 
     // Intialize all counters
-    moves = 0, matched = 0, accuracy = 30, compareRoom = [];
+    moves = 0, matched = 0, accuracy = 30, compareRoom = [], timer = [0, 0, 0, 0];
 
     // Reset HTML
     deck.innerHTML = '';
@@ -70,13 +90,16 @@ function newGame() {
         card.classList.value = ('card');
         deck.appendChild(card)
     });
-    movesSpan.textContent = moves
+    updateScore();
 
     // Open cards
     cards.forEach(card => open(card));
 
     // Close cards after 2 secs
     setTimeout(() => cards.forEach(card => close(card)), 2000);
+
+    // Start the timer
+    setTimeout(() => interval = setInterval(runTimer, 10), 2000);
 }
 
 // Card click event
@@ -92,6 +115,9 @@ deck.addEventListener('click', function (event) {
 
 // Restart click event
 restartBtn.addEventListener('click', function (event) {
+    clearInterval(interval);
+    interval = null;
+    Time.textContent = `Time: 00:00:00`;
     newGame();
 });
 
