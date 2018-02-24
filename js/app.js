@@ -3,8 +3,9 @@ const deck = document.querySelector('.deck');
 const cards = document.querySelectorAll('.card');
 const movesDiv = document.querySelector('.moves');
 const restartBtn = document.querySelector('.restart');
-const Time = document.querySelector(".time");
-var moves, matched, accuracy, compareRoom, timer;
+const time = document.querySelector(".time");
+const stars = document.querySelectorAll(".fa-star");
+var moves, matched, mismatched, compareRoom, interval, timer;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
 function shuffle(array) {
@@ -32,27 +33,29 @@ function close(card) {
     setTimeout(() => card.classList.remove("open"), 250);
 }
 
-function match() {
-    [...compareRoom].forEach(card => card.classList.add("match"))
+function match(cards) {
+    cards.forEach(card => card.classList.add("match"));
+    matched++;
 }
 
-function noMatch() {
-    [...compareRoom].forEach(card => close(card));
+function noMatch(cards) {
+    cards.forEach(card => close(card));
+    mismatched++;
 }
 
 // Add zero
 function leadingZero(time) {
     if (time <= 9) {
-      time = "0" + time;
+        time = "0" + time;
     }
     return time;
 }
 
 // Run timer
 function runTimer() {
-    updateScore();
+    sync();
     timer[3]++;
-  
+
     timer[0] = Math.floor((timer[3] / 100) / 60);
     timer[1] = Math.floor((timer[3] / 100) - (timer[0] * 60));
     timer[2] = Math.floor(timer[3] - (timer[1] * 100) - (timer[0] * 6000));
@@ -62,35 +65,52 @@ function runTimer() {
 function compare() {
     if (compareRoom.length === 2) {
         if (compareRoom[0].firstElementChild.classList.value === compareRoom[1].firstElementChild.classList.value) {
-            match();
-            matched++;
+            match(compareRoom);
         } else {
-            noMatch();
-            accuracy--;
+            noMatch(compareRoom);
         }
         compareRoom = [];
     }
-    // Todo: if complete show a modal
+
+    switch (mismatched) {
+        case 3:
+            stars[0].style.display = 'none';
+            break;
+        case 6:
+            stars[1].style.display = 'none';
+            break;
+        case 10:
+            stars[2].style.display = 'none';
+            break;
+        case 15:
+            stars[3].style.display = 'none';
+            break;
+    }
+
+    if (matched === cards.length / 2) {
+        clearInterval(interval);
+        // Show score
+    }
 }
 
-function updateScore() {
+function sync() {
     movesDiv.textContent = moves === 1 ? `${moves} Move` : `${moves} Moves`;
-    Time.textContent = `Time: ${leadingZero(timer[0]) + ":" + leadingZero(timer[1]) + ":" + leadingZero(timer[2])}`;
-    // Todo: update stars
+    time.textContent = `Time: ${leadingZero(timer[0]) + ":" + leadingZero(timer[1]) + ":" + leadingZero(timer[2])}`;
 }
 
 function newGame() {
-
     // Intialize all counters
-    moves = 0, matched = 0, accuracy = 30, compareRoom = [], timer = [0, 0, 0, 0];
+    moves = 0; matched = 0; mismatched = 0; compareRoom = []; timer = [0, 0, 0, 0];
+    clearInterval(interval);
+    interval = null;
 
     // Reset HTML
     deck.innerHTML = '';
     shuffle([...cards]).forEach(card => {
         card.classList.value = ('card');
-        deck.appendChild(card)
+        deck.appendChild(card);
     });
-    updateScore();
+    sync();
 
     // Open cards
     cards.forEach(card => open(card));
@@ -108,16 +128,12 @@ deck.addEventListener('click', function (event) {
         open(event.target);
         compareRoom.push(event.target);
         moves++;
-        updateScore();
         setTimeout(() => compare(), 500);
     }
 });
 
 // Restart click event
 restartBtn.addEventListener('click', function (event) {
-    clearInterval(interval);
-    interval = null;
-    Time.textContent = `Time: 00:00:00`;
     newGame();
 });
 
