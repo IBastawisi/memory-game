@@ -34,12 +34,12 @@ function close(card) {
 }
 
 function match(cards) {
-    cards.forEach(card => card.classList.add("match"));
+    setTimeout(() => cards.forEach(card => card.classList.add("match")), 250);
     matched++;
 }
 
 function noMatch(cards) {
-    cards.forEach(card => close(card));
+    setTimeout(() => cards.forEach(card => close(card)), 250);
     mismatched++;
 }
 
@@ -128,7 +128,7 @@ deck.addEventListener('click', function (event) {
         open(event.target);
         compareRoom.push(event.target);
         moves++;
-        setTimeout(() => compare(), 500);
+        compare();
     }
 });
 
