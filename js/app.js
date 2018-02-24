@@ -99,7 +99,7 @@ function newGame() {
     setTimeout(() => cards.forEach(card => close(card)), 2000);
 
     // Start the timer
-    setTimeout(() => interval = setInterval(runTimer, 10), 2000);
+    setTimeout(() => interval = setInterval(runTimer, 10), 2250);
 }
 
 // Card click event
