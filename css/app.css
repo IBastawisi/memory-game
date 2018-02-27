@@ -26,6 +26,7 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    width: 100%;
 }
 
 h1 {
@@ -38,43 +39,43 @@ h1 {
  */
 
 .deck {
-    width: 660px;
-    min-height: 680px;
+    width: 320px;
+    min-height: 340px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
-    padding: 32px;
-    border-radius: 10px;
-    box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+    padding: 16px;
+    border-radius: 5px;
+    box-shadow: 6px 8px 10px 0 rgba(46, 61, 73, 0.5);
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
-    margin: 0 0 3em;
+    margin: 0 0 1.5em;
 }
 
 .deck .card {
-    height: 125px;
-    width: 125px;
+    height: 60px;
+    width: 60px;
     background: #2e3d49;
     font-size: 0;
     color: #ffffff;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
     display: flex;
     justify-content: center;
     align-items: center;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    box-shadow: 3px 1px 10px 0 rgba(46, 61, 73, 0.5);
 }
 
 .deck .card.open {
     background: #02b3e4;
     cursor: default;
-    font-size: 33px;
+    font-size: 16px;
 }
 
 .deck .card.match {
     cursor: default;
     background: #02ccba;
-    font-size: 33px;
+    font-size: 16px;
 }
 
 /*
@@ -82,21 +83,17 @@ h1 {
  */
 
 .score-panel {
-    text-align: left;
-    width: 440px;
+    width: 310px;
     margin-bottom: 10px;
-}
-
-.moves,
-.time {
-    display: inline-block;
-    margin: 0 2em;
+    font-size: 12px;
 }
 
 .score-panel .stars {
     margin: 0 5px 0 0;
     padding: 0;
-    display: inline-block;
+    width: 100px;
+    text-align: center;
+    float: left;
 }
 
 .score-panel .stars li {
@@ -104,7 +101,99 @@ h1 {
     display: inline-block;
 }
 
-.score-panel .restart {
+.score-panel .moves {
+    display: inline-block;
+    margin: 0 1em;
+}
+
+.score-panel .time {
+    width: 110px;
     float: right;
-    cursor: pointer;
+}
+
+.restart {
+    padding: 1em 2em;
+    color: black;
+    background-color: white ;
+    border: 2px solid black;
+}
+
+.restart:hover {
+    color: white;
+    background-color: black;  
+}
+
+/* 
+* Winning modal
+*/
+
+.pass {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: none;
+    opacity: 0;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    font-family: 'Coda', cursive;
+}
+
+.pass img {
+    height: auto;
+    max-width: 300px;
+}
+
+/*
+* Responsive style
+*/
+
+@media (min-width: 700px) {
+    .deck {
+      width: 660px;
+      min-height: 680px;
+      padding: 32px;
+      box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
+      margin: 0 0 2em;
+    }
+    .deck .card {
+        height: 125px;
+        width: 125px;
+        border-radius: 8px;
+        box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
+    }
+    .deck .card.open {
+        background: #02b3e4;
+        cursor: default;
+        font-size: 33px;
+    }
+    
+    .deck .card.match {
+        cursor: default;
+        background: #02ccba;
+        font-size: 33px;
+    }
+    .score-panel {
+        font-size: 20px;
+        width: 500px;
+    }
+    .score-panel .stars {
+        width: 150px;
+    }
+    .score-panel .moves {
+        margin: 0 2em;
+    }
+    
+    .score-panel .time {
+        width: 150px;
+    }
+    .restart {
+        font-size: 20px;
+    }
 }

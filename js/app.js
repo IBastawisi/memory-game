@@ -5,6 +5,8 @@ const movesDiv = document.querySelector('.moves');
 const restartBtn = document.querySelector('.restart');
 const time = document.querySelector(".time");
 const stars = document.querySelectorAll(".fa-star");
+const score = document.querySelector('.score-panel');
+const pass = document.querySelector(".pass");
 var moves, matched, mismatched, compareRoom, interval, timer;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -89,7 +91,11 @@ function compare() {
 
     if (matched === cards.length / 2) {
         clearInterval(interval);
-        // Show score
+        pass.style.display = 'flex';
+        pass.appendChild(score);
+        restartBtn.style.marginTop = '8px';
+        pass.appendChild(restartBtn);
+        transition.begin(pass, ["opacity", "0", "100", "500ms", "linear"]);
     }
 }
 
@@ -110,6 +116,7 @@ function newGame() {
         card.classList.value = ('card');
         deck.appendChild(card);
     });
+    stars.forEach(star => star.style.display = 'inline-block');
     sync();
 
     // Open cards
@@ -132,8 +139,15 @@ deck.addEventListener('click', function (event) {
     }
 });
 
-// Restart click event
+// Restart click ev ent
 restartBtn.addEventListener('click', function (event) {
+    if(pass.style.display = 'flex'){
+        deck.insertAdjacentElement('beforeBegin', score);
+        deck.insertAdjacentElement('afterEnd', restartBtn);
+        restartBtn.style.marginTop = '0';
+        transition.begin(pass, ["opacity", "100", "0", "500ms", "linear"]);
+        pass.style.display = 'none';
+    }
     newGame();
 });
 
