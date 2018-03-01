@@ -29,7 +29,8 @@ body {
     width: 100%;
 }
 
-h1 {
+h1,
+h2 {
     font-family: 'Open Sans', sans-serif;
     font-weight: 300;
 }
@@ -40,7 +41,7 @@ h1 {
 
 .deck {
     width: 320px;
-    min-height: 340px;
+    height: 340px;
     background: linear-gradient(160deg, #02ccba 0%, #aa7ecd 100%);
     padding: 16px;
     border-radius: 5px;
@@ -128,26 +129,17 @@ h1 {
 */
 
 .pass {
-    position: fixed;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 100;
-    display: none;
-    opacity: 0;
     flex-direction: column;
-    justify-content: center;
+    justify-content: space-around;
     align-items: center;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 5px 2px 20px 0 rgba(46, 61, 73, 0.5);
     font-family: 'Coda', cursive;
+    background: white;
+    border: 2px solid;
 }
 
 .pass img {
     height: auto;
-    max-width: 300px;
+    max-width: 150px;
 }
 
 /*
@@ -157,7 +149,7 @@ h1 {
 @media (min-width: 700px) {
     .deck {
       width: 660px;
-      min-height: 680px;
+      height: 680px;
       padding: 32px;
       box-shadow: 12px 15px 20px 0 rgba(46, 61, 73, 0.5);
       margin: 0 0 2em;
@@ -178,6 +170,9 @@ h1 {
         cursor: default;
         background: #02ccba;
         font-size: 33px;
+    }
+    .pass img {
+        max-width: 300px;
     }
     .score-panel {
         font-size: 20px;

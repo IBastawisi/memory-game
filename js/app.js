@@ -6,7 +6,6 @@ const restartBtn = document.querySelector('.restart');
 const time = document.querySelector(".time");
 const stars = document.querySelectorAll(".fa-star");
 const score = document.querySelector('.score-panel');
-const pass = document.querySelector(".pass");
 var moves, matched, mismatched, compareRoom, interval, timer;
 
 // Shuffle function from http://stackoverflow.com/a/2450976
@@ -45,6 +44,41 @@ function noMatch(cards) {
     mismatched++;
 }
 
+function pass() {
+    setTimeout(() => close(deck), 500);
+    if (window.innerWidth >= 700) {
+        transition.begin(deck, ["height", "680px", "500px", "500ms", "linear", "600ms"]);
+    } else {
+        transition.begin(deck, ["height", "340px", "280px", "500ms", "linear", "600ms"]);
+    }
+    setTimeout(() => {
+        deck.innerHTML = '';
+        deck.classList.add('pass');
+        deck.appendChild(score);
+        deck.appendChild(restartBtn);
+        score.insertAdjacentHTML('beforeBegin', `<img src="img/pass.gif" alt="pass"> <h2>YOU DID IT!</h2>`)
+        deck.style.transform = 'rotateY(0)';
+    }, 750);
+
+}
+
+function reset() {
+    close(deck);
+    if (window.innerWidth >= 700) {
+        transition.begin(deck, ["height", "500px", "680px", "500ms", "linear", "150ms"]);
+    } else {
+        transition.begin(deck, ["height", "280px", "340px", "500ms", "linear", "150ms"]);
+    }
+    setTimeout(() => {
+        deck.innerHTML = '';
+        deck.style.transform = 'rotateY(0)';
+        deck.classList.remove('pass');
+        deck.insertAdjacentElement('beforeBegin', score);
+        deck.insertAdjacentElement('afterEnd', restartBtn);
+    }, 250);
+
+}
+
 // Add zero
 function leadingZero(time) {
     if (time <= 9) {
@@ -75,27 +109,17 @@ function compare() {
     }
 
     switch (mismatched) {
-        case 3:
+        case 5:
             stars[0].style.display = 'none';
             break;
-        case 6:
+        case 12:
             stars[1].style.display = 'none';
-            break;
-        case 10:
-            stars[2].style.display = 'none';
-            break;
-        case 15:
-            stars[3].style.display = 'none';
             break;
     }
 
     if (matched === cards.length / 2) {
         clearInterval(interval);
-        pass.style.display = 'flex';
-        pass.appendChild(score);
-        restartBtn.style.marginTop = '8px';
-        pass.appendChild(restartBtn);
-        transition.begin(pass, ["opacity", "0", "100", "500ms", "linear"]);
+        pass();
     }
 }
 
@@ -139,16 +163,12 @@ deck.addEventListener('click', function (event) {
     }
 });
 
-// Restart click ev ent
+// Restart click event
 restartBtn.addEventListener('click', function (event) {
-    if(pass.style.display = 'flex'){
-        deck.insertAdjacentElement('beforeBegin', score);
-        deck.insertAdjacentElement('afterEnd', restartBtn);
-        restartBtn.style.marginTop = '0';
-        transition.begin(pass, ["opacity", "100", "0", "500ms", "linear"]);
-        pass.style.display = 'none';
+    if (deck.classList.contains('pass')) {
+        setTimeout(() => newGame(), 500);
+        reset();
     }
-    newGame();
 });
 
 // Let the game begin
