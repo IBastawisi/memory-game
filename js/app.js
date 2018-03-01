@@ -64,13 +64,13 @@ function pass() {
 
 function reset() {
     close(deck);
+    deck.innerHTML = ''
     if (window.innerWidth >= 700) {
         transition.begin(deck, ["height", "500px", "680px", "500ms", "linear", "150ms"]);
     } else {
         transition.begin(deck, ["height", "280px", "340px", "500ms", "linear", "150ms"]);
     }
     setTimeout(() => {
-        deck.innerHTML = '';
         deck.style.transform = 'rotateY(0)';
         deck.classList.remove('pass');
         deck.insertAdjacentElement('beforeBegin', score);
@@ -119,7 +119,7 @@ function compare() {
 
     if (matched === cards.length / 2) {
         clearInterval(interval);
-        pass();
+        setTimeout(() => pass(), 1000);
     }
 }
 
@@ -165,8 +165,9 @@ deck.addEventListener('click', function (event) {
 
 // Restart click event
 restartBtn.addEventListener('click', function (event) {
+    newGame();
     if (deck.classList.contains('pass')) {
-        setTimeout(() => newGame(), 500);
+        setTimeout(() => newGame(), 300);
         reset();
     }
 });
