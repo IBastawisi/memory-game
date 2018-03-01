@@ -165,10 +165,11 @@ deck.addEventListener('click', function (event) {
 
 // Restart click event
 restartBtn.addEventListener('click', function (event) {
-    newGame();
     if (deck.classList.contains('pass')) {
         setTimeout(() => newGame(), 300);
         reset();
+    } else {
+        newGame();
     }
 });
 
