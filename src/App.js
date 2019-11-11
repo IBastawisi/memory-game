@@ -1,11 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Game from './Game';
 import './App.css';
 
 function App() {
-  return (
-    <Game />
-  );
+  const [gameId, setGameId] = useState(1);
+  return <Game key={gameId} startNewGame={() => setGameId(gameId + 1)} />;
 }
 
 export default App;

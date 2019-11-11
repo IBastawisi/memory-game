@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Card from "./Card";
 import Score from "./Score";
+import pass from './img/pass.gif'
 
 const icons = ['alarm', 'work', 'cloud', 'headset', 'flight', 'computer', 'fastfood', 'explore'
   , 'accessible', 'android', 'build', 'delete', 'eco', 'favorite', 'home', 'https'
@@ -29,8 +30,8 @@ function generateCards(count) {
   return shuffleArray(cards);
 }
 
-export default function Game({ fieldWidth = 4, fieldHeight = 4 }) {
-  const totalCards = fieldWidth * fieldHeight;
+export default function Game(props) {
+  const totalCards = 16;
 
   const [cards, setCards] = useState(generateCards(totalCards));
   const [canFlip, setCanFlip] = useState(false);
@@ -80,7 +81,7 @@ export default function Game({ fieldWidth = 4, fieldHeight = 4 }) {
   }
 
   function onSuccessGuess() {
-    setMatched(matched+1)
+    setMatched(matched + 1)
     setCardCanFlip(firstCard.id, false);
     setCardCanFlip(secondCard.id, false);
     setCardflipped(firstCard.id, false);
@@ -88,7 +89,7 @@ export default function Game({ fieldWidth = 4, fieldHeight = 4 }) {
     resetFirstAndSecondCards();
   }
   function onFailureGuess() {
-    setWrong(wrong+1)
+    setWrong(wrong + 1)
 
     const firstCardID = firstCard.id;
     const secondCardID = secondCard.id;
@@ -128,9 +129,18 @@ export default function Game({ fieldWidth = 4, fieldHeight = 4 }) {
     <header>
       <h1>Matching Game</h1>
     </header>
-    <Score moves={moves} matched={matched} wrong={wrong} />
-    <div className="deck">
-      {cards.map(card => <Card onClick={() => onCardClick(card)} key={card.id} {...card} />)}
-    </div>
+    {matched == totalCards / 2 ?
+      <div className="deck pass">
+        <img src={pass} alt="pass"/>
+        <h2>YOU DID IT!</h2>
+        <Score moves={moves} matched={matched} wrong={wrong} />
+        <button className="restart" onClick={props.startNewGame}>Restart</button>
+      </div>
+      : <>
+        <Score moves={moves} matched={matched} wrong={wrong} />
+        <div className="deck">
+          {cards.map(card => <Card onClick={() => onCardClick(card)} key={card.id} {...card} />)}
+        </div>
+        <button className="restart" onClick={props.startNewGame}>Restart</button></>}
   </div>;
 }
